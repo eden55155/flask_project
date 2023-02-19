@@ -1,8 +1,9 @@
 from flask import Flask
-
+import sys
 app = Flask(__name__)
 @app.route('/')
-def hello_world():
-    return "Hello, World!"
+def hello_name():
+    return f'Hello {sys.argv[1]}'
 
-app.run(host="0.0.0.0", port=5001)    
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=80)
