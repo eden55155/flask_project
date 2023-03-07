@@ -1,0 +1,42 @@
+pipeline{
+    agent any
+    stages{
+        stage('Checkout SCM'){
+            steps {
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: 'main']],
+                    userRemoteConfigs : [[
+                        url: 'git@github.com:alexkDevBoss/JenkinsMaster.git',
+                        credentialsId: ''
+                        ]]
+                    ])
+            }
+        }
+        stage('S3download'){
+            steps{
+                withAWS(credentials:'awscredentials', region:'us-east-1'){
+                    s3Download(file: 'rlvapus7tuy7veffcwwtwq44ke.json.gz', bucket:'reminder-sqlabs-alexk',path: "AWSDynamoDB/01676567735754-39122b3a/data/rlvapus7tuy7veffcwwtwq44ke.json.gz")
+                }
+            }
+        }
+        stage('PreUploadToGit'){
+            steps{
+                sh 'git add .'
+                sh 'git commit -m "some commit message"'
+            }
+        }
+
+        
+        // stage('GitPush'){
+        //     steps{ 
+        //             sh 'git push origin HEAD'
+        //     }    
+        // }
+    }
+    post {
+        always {
+            deleteDir()
+        }
+    }
+}
