@@ -19,7 +19,7 @@ pipeline {
         stage('S3download'){
             steps{
                 withAWS(credentials:'awscredentials', region:'us-east-1'){
-                    s3Download(file: 'successlog.csv', bucket:'sqlabs-devops-edeni',path: "s3://sqlabs-devops-edeni/AWSDynamoDB/")
+                    s3Download(file: 'successlog.csv', bucket:'sqlabs-devops-edeni',path: "s3://sqlabs-devops-edeni/", force:true)
                 }
             }
         }
