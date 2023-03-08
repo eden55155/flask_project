@@ -16,12 +16,16 @@ pipeline {
         sh "curl -v http://52.3.252.159:5000 >> successlog.csv"
       }
     }
-        stage('S3download'){
-            steps{
-                withAWS(credentials:'awscredentials', region:'us-east-1'){
-                    s3Download(file: 'successlog.csv', bucket:'sqlabs-devops-edeni',path: "s3://sqlabs-devops-edeni/", force:true)
-                }
-            }
+        stage('Upload to S3') {
+      steps {
+        withCredentials([[
+          $class: 'AmazonWebServicesCredentialsBinding',
+          accessKeyVariable: 'AKIAXHSZ337B6LYYH4NN',
+          secretKeyVariable: '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'
+        ]]) {
+          sh 'aws s3 cp successlog.csv s3://sqlabs-devops-edeni/Project/successlog.csv --acl public-read'
         }
+      }
     }
+}
 }
