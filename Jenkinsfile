@@ -14,6 +14,8 @@ pipeline {
         sh "docker run -p 5000:5000 -d -it projectflask"
         sh "sleep 5"
         sh "curl -v http://52.3.252.159:5000 > lame.txt"
+        sh 'echo "${BUILD_LOG}" > pipeline_logs.txt'
+
       }
     }
 }
