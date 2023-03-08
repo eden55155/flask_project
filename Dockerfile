@@ -7,4 +7,4 @@ RUN pip install -r requirments.txt
 
 COPY / .
 
-CMD [ "python", "app.py", "edeni"]
+CMD [ "python", "app.py", "eden"]
