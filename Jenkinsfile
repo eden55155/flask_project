@@ -14,7 +14,7 @@ pipeline {
         sh "docker run -p 5000:5000 -d -it projectflask"
         sh "sleep 5"
         sh "curl -v http://52.3.252.159:5000 >> successlog.csv"
-        sh "cp /home/ubuntu/workspace/test successlog.csv"
+        sh "cp -r /home/ubuntu/workspace/test successlog.csv"
       }
     }
         
