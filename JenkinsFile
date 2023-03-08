@@ -1,42 +1,20 @@
-pipeline{
-    agent any
-    stages{
-        stage('Checkout SCM'){
+pipeline {
+    agent {label "slave1" }
+    
+    stages {
+        stage('Clone repository') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: 'main']],
-                    userRemoteConfigs : [[
-                        url: 'git@github.com:alexkDevBoss/JenkinsMaster.git',
-                        credentialsId: ''
-                        ]]
-                    ])
+                git 'https://github.com/eden55155/flask_project.git'
             }
         }
-        stage('S3download'){
-            steps{
-                withAWS(credentials:'awscredentials', region:'us-east-1'){
-                    s3Download(file: 'rlvapus7tuy7veffcwwtwq44ke.json.gz', bucket:'reminder-sqlabs-alexk',path: "AWSDynamoDB/01676567735754-39122b3a/data/rlvapus7tuy7veffcwwtwq44ke.json.gz")
-                }
-            }
-        }
-        stage('PreUploadToGit'){
-            steps{
-                sh 'git add .'
-                sh 'git commit -m "some commit message"'
-            }
-        }
-
         
-        // stage('GitPush'){
-        //     steps{ 
-        //             sh 'git push origin HEAD'
-        //     }    
-        // }
+    stage('Build Docker Image') {
+      steps {
+        sh "docker build -t projectflask ."
+        sh "docker run -p 5000:5000 -d -it projectflask"
+        sh "sleep 5"
+        sh "curl -v http://52.3.252.159:5000 > lame.txt"
+      }
     }
-    post {
-        always {
-            deleteDir()
-        }
-    }
+}
 }
