@@ -15,8 +15,6 @@ pipeline {
         sh "sleep 5"
         sh "curl -v http://52.3.252.159:5000 >> successlog.csv"
       }
-    }
-        
-        
+    }       
 }
 }
