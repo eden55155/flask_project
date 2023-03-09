@@ -17,16 +17,6 @@ pipeline {
       }
     }
         
-        stage('Upload to S3') {
-      steps {
-        withCredentials([[
-          $class: 'AmazonWebServicesCredentialsBinding',
-          accessKeyVariable: 'AKIAXHSZ337B6LYYH4NN',
-          secretKeyVariable: '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'
-        ]]) {
-          sh 'aws s3 cp /home/ubuntu/workspace/test/successlog.csv s3://sqlabs-devops-edeni/Project/successlog.csv --acl public-read'
-        }
-      }
-    }
+        
 }
 }
