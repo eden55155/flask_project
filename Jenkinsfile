@@ -11,7 +11,7 @@ pipeline {
     stage('Build Docker Image') {
       steps {
         sh "docker build -t projectflask ."
-        sh "docker run -p 5000:5000 -d -it projectflask"
+        sh "docker run --name testimage -p 5000:5000 -d -it projectflask"
         sh "sleep 5"
         sh "curl -v http://100.26.173.65:5000 > successlog.csv"
       }
@@ -23,6 +23,11 @@ pipeline {
                       s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'successlog.csv', bucket:'sqlabs-devops-eden')
                   }
               }
-         }
-     }
+        stage('Delete container for new tests') {
+            steps {
+                sh "docker stop testimage"
+                sh "docker rm testimage"
+            }
+        }
 }
+}   
