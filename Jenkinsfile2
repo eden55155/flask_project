@@ -8,13 +8,12 @@ pipeline {
         stage('Clone repository') {
             steps {
             if (server_name == "slave2") {
-   // Deploy build to server-1
-} else if (server_name == "slave3") {
-   // Deploy build to server-2
-} else {
-   error("Invalid server name: ${server_name}")
-}
-                git 'https://github.com/eden55155/flask_project.git'
+            // Deploy build to server-1
+            } else if (server_name == "slave3") {
+            // Deploy build to server-2
+            } else {
+            error("Invalid server name: ${server_name}")
+            git 'https://github.com/eden55155/flask_project.git'
             }
         }
         
