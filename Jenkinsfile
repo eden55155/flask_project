@@ -28,8 +28,8 @@ pipeline {
         
         stage('Delete container for new tests') {
             steps {
-                sh "docker stop testimage"
-                sh "docker rm testimage"
+                sh "docker stop projectflask"
+                sh "docker rm projectflask"
             }
         }
     }
