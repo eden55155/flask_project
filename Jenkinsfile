@@ -32,14 +32,16 @@ pipeline {
                 sh "docker rm testimage"
             }
         }
-    }
-    
-    post {
-        success {
-            def buildNumber = currentBuild.number
-            sh "sleep 5"
-            sh "/var/jenkins_home/jobs/Project/builds/${buildNumber}/log >> log"
-            sh "python3 log.py >> successlog.csv"
+        
+        stage('Post Build Actions') {
+            post {
+                success {
+                    def buildNumber = currentBuild.number
+                    sh "sleep 5"
+                    sh "/var/jenkins_home/jobs/Project/builds/${buildNumber}/log >> log"
+                    sh "python3 log.py >> successlog.csv"
+                }
+            }
         }
     }
 }
