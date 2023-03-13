@@ -1,4 +1,13 @@
-file_obj = open("log", "r")
+import os
+
+dirs = []
+for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
+    if dir.isnumeric():
+       dirs.append(dir)
+
+buildNo = sorted(dirs)[-1]
+
+file_obj = open(f"/var/jenkins_home/jobs/Project/builds/{buildNo}/log", "r")
 
 file_data = file_obj.read()
 lines = file_data.splitlines()
