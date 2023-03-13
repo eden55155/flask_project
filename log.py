@@ -1,6 +1,10 @@
 import os
+import glob
+
 
 dirs = []
+check = max(glob.glob('/var/jenkins_home/jobs/Project/builds/*'),key=os.path.getctime)
+print(check)
 for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
     if dir.isnumeric():
        dirs.append(dir)
