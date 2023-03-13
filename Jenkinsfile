@@ -12,7 +12,9 @@ pipeline {
             steps {
                 sh "docker build -t projectflask ."
                 sh "docker run --name testimage -p 80:80 -d -it projectflask"
-                sh "sleep 5"
+                def buildNumber = currentBuild.number
+                sh "sleep(5)"
+                sh "/var/jenkins_home/jobs/Project/builds/{buildNo}/log >> log"
                 sh "python3 log.py >> successlog.csv"
             }
         }
