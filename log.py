@@ -2,7 +2,7 @@ import os
 
 dirs = []
 
-for dir in os.listdir('.'):
+for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
     if dir.isnumeric():
        dirs.append(dir)
 
