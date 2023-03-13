@@ -22,8 +22,11 @@ if check_file:
     file.write(started)
     file.write(date)
     file.write(finish)
+    file.write(' ')
 else:
     file = open("successlog.csv", "w")
     file.write(f"{started} \n")
     file.write(f"{date} \n")
     file.write(f"{finish} \n")
+    file.write(" \n")
+
