@@ -8,6 +8,7 @@ for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
 buildNo = sorted(dirs)[-1]
 
 check_file = os.path.exists('successlog.csv')
+print(buildNo)
 file_obj = open(f"/var/jenkins_home/jobs/Project/builds/{buildNo}/log", "r")
 file_data = file_obj.read()
 lines = file_data.splitlines()
