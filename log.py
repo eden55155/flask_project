@@ -3,7 +3,7 @@ import glob
 
 check = max(glob.glob('/var/jenkins_home/jobs/Project/builds/*'),key=os.path.getctime)
 
-check_file = os.path.exists('successlog.csv')
+check_file = os.path.exists('successlog.txt')
 file_obj = open(f"{check}/log", "r")
 file_data = file_obj.read()
 lines = file_data.splitlines()
@@ -18,13 +18,13 @@ for line in lines:
 finish = lines[-1]
 
 if check_file:
-    file = open("successlog.csv", "a")
+    file = open("successlog.txt", "a")
     file.write(started)
     file.write(date)
     file.write(finish)
     file.write(' ')
 else:
-    file = open("successlog.csv", "w")
+    file = open("successlog.txt", "w")
     file.write(f"{started} \n")
     file.write(f"{date} \n")
     file.write(f"{finish} \n")
