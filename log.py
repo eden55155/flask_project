@@ -5,7 +5,7 @@ for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
     if dir.isnumeric():
        dirs.append(dir)
 
-print(sorted(dirs))
+print(sorted(dirs,reverse=True))
 buildNo = sorted(dirs)[-1]
 
 check_file = os.path.exists('successlog.csv')
