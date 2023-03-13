@@ -9,12 +9,12 @@ pipeline {
         }
         
         stage('Build Docker Image') {
+            def buildNumber = currentBuild.number
             steps {
                 sh "docker build -t projectflask ."
                 sh "docker run --name testimage -p 80:80 -d -it projectflask"
-                def buildNumber = currentBuild.number
                 sh "sleep(5)"
-                sh "/var/jenkins_home/jobs/Project/builds/{buildNo}/log >> log"
+                sh "/var/jenkins_home/jobs/Project/builds/{buildNumber}/log >> log"
                 sh "python3 log.py >> successlog.csv"
             }
         }
