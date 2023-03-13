@@ -1,4 +1,3 @@
-pipeline {
     agent { label "slave1" }
     
     stages {
@@ -34,12 +33,16 @@ pipeline {
         }
         
         stage('Post Build Actions') {
-            post {
-                success {
+            steps {
+                script {
                     def buildNumber = currentBuild.number
-                    sh "sleep 5"
-                    sh "/var/jenkins_home/jobs/Project/builds/${buildNumber}/log >> log"
-                    sh "python3 log.py >> successlog.csv"
+                    post {
+                        success {
+                            sh "sleep 5"
+                            sh "/var/jenkins_home/jobs/Project/builds/${buildNumber}/log >> log"
+                            sh "python3 log.py >> successlog.csv"
+                        }
+                    }
                 }
             }
         }
