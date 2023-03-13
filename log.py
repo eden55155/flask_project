@@ -1,19 +1,10 @@
 import os
 import glob
 
-
-dirs = []
 check = max(glob.glob('/var/jenkins_home/jobs/Project/builds/*'),key=os.path.getctime)
-print(check)
-for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
-    if dir.isnumeric():
-       dirs.append(dir)
-
-print(sorted(dirs,reverse=True))
-buildNo = sorted(dirs)[-1]
 
 check_file = os.path.exists('successlog.csv')
-file_obj = open(f"/var/jenkins_home/jobs/Project/builds/{buildNo}/log", "r")
+file_obj = open(f"{check}/log", "r")
 file_data = file_obj.read()
 lines = file_data.splitlines()
 started = ''
