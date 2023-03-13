@@ -13,7 +13,7 @@ pipeline {
                 sh "docker build -t projectflask ."
                 sh "docker run --name testimage -p 80:80 -d -it projectflask"
                 sh "sleep 5"
-                sh "curl -v http://54.89.59.86:80 > successlog.csv"
+                sh "python3 log.py >> successlog.csv"
             }
         }
         
