@@ -11,17 +11,10 @@ pipeline{
         stage('Build Docker Image') {
             steps {
                 script {
-//                     def build = currentBuild.rawBuild
-//                     def cause = build.getCause(hudson.model.Cause.UserIdCause.class)
-//                     def name = cause.getUserName()
-                    def now = new Date()
                     sh "docker build -t projectflask ."
                     sh "docker run --name testimage -p 80:80 -d -it projectflask"
                     sh "sleep 5"
-//                     sh "${name} >> successlog.csv"
-                    sh "Date: ${now} >> successlog.csv"
-                    sh "Result: ${currentBuild.result} >> successlog.csv"
-                    
+                    sh "curl -v http://18.234.107.252 >> successlog.csv"
 //                     sh "/var/jenkins_home/jobs/Project/builds/${buildNumber}/log >> log"
 //                     sh "python3 log.py >> successlog.csv"
                 }
