@@ -13,7 +13,6 @@ pipeline {
                 script {
                     sh "docker build -t projectflask ."
                     sh "docker run --name testimage -p 80:80 -d -it projectflask"
-
                 }
             }
         }
@@ -34,7 +33,8 @@ pipeline {
             }
         }
     }
-     post {
+    
+    post {
         success {
             def buildNumber = currentBuild.number
             sh "sleep 5"
