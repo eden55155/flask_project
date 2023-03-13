@@ -1,5 +1,5 @@
 pipeline {
-    agent {label "slave1" }
+    agent { label "slave1" }
     
     stages {
         stage('Clone repository') {
@@ -9,19 +9,21 @@ pipeline {
         }
         
         stage('Build Docker Image') {
-            def buildNumber = currentBuild.number
             steps {
-                sh "docker build -t projectflask ."
-                sh "docker run --name testimage -p 80:80 -d -it projectflask"
-                sh "sleep(5)"
-                sh "/var/jenkins_home/jobs/Project/builds/{buildNumber}/log >> log"
-                sh "python3 log.py >> successlog.csv"
+                script {
+                    def buildNumber = currentBuild.number
+                    sh "docker build -t projectflask ."
+                    sh "docker run --name testimage -p 80:80 -d -it projectflask"
+                    sh "sleep 5"
+                    sh "/var/jenkins_home/jobs/Project/builds/${buildNumber}/log >> log"
+                    sh "python3 log.py >> successlog.csv"
+                }
             }
         }
         
         stage('Upload to AWS') {
             steps {
-                withAWS(region:'us-east-1',credentials:'awscred') {
+                withAWS(region:'us-east-1', credentials:'awscred') {
                     sh 'echo "Uploading content with AWS creds"'
                     s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'successlog.csv', bucket:'sqlabs-devops-eden')
                 }
