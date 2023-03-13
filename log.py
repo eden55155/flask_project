@@ -1,6 +1,7 @@
 import os
 
 dirs = []
+print(os.listdir('.')
 for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
     if dir.isnumeric():
        dirs.append(dir)
@@ -8,7 +9,6 @@ for dir in os.listdir('/var/jenkins_home/jobs/Project/builds'):
 buildNo = sorted(dirs)[-1]
 
 file_obj = open(f"/var/jenkins_home/jobs/Project/builds/{buildNo}/log", "r")
-print('/var/jenkins_home/jobs/Project/builds/{buildNo}/log')
 file_data = file_obj.read()
 lines = file_data.splitlines()
 started = ''
