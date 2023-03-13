@@ -25,5 +25,5 @@ if check_file:
     file.write(' ')
 else:
     file = open("successlog.txt", "w")
-    file.write(f"{started} \n {date} \n {finish}")
+    file.write(f'{started} \n {date} \n {finish}')
 
