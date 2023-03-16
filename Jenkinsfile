@@ -34,6 +34,6 @@ pipeline{
                 sh "docker rm testimage"
             }
         }
-    }
-   
+    } 
+}
 }
