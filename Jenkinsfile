@@ -14,10 +14,8 @@ pipeline{
                     sh "docker build -t projectflask ."
                     sh "docker run --name testimage -p 80:80 -d -it projectflask"
                     sh "sleep 5"
-                    sh "curl -v http://18.234.107.252 >> successlog.csv"
-//                     sh "/var/jenkins_home/jobs/Project/builds/${buildNumber}/log >> log"
-//                     sh "python3 log.py >> successlog.csv"
-                }
+                    sh "curl -v http://18.210.17.39 >> successlog.csv"
+
             }
         }
         
