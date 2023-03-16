@@ -1,13 +1,15 @@
-pipeline{
-     agent { label "slave1" }
-    
+pipeline {
+    agent {
+        label "slave1"
+    }
+
     stages {
         stage('Clone repository') {
             steps {
                 git 'https://github.com/eden55155/flask_project.git'
             }
         }
-        
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -15,10 +17,10 @@ pipeline{
                     sh "docker run --name testimage -p 80:80 -d -it projectflask"
                     sh "sleep 5"
                     sh "curl -v http://18.210.17.39 >> successlog.csv"
-
+                }
             }
         }
-        
+
         stage('Upload to AWS') {
             steps {
                 withAWS(region:'us-east-1', credentials:'awscred') {
@@ -27,13 +29,12 @@ pipeline{
                 }
             }
         }
-        
+
         stage('Delete container for new tests') {
             steps {
                 sh "docker stop testimage"
                 sh "docker rm testimage"
             }
         }
-    } 
-}
+    }
 }
