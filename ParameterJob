@@ -1,0 +1,74 @@
+pipeline {
+  parameters {
+    choice(name: 'AGENT_LABEL', choices: ['slave2', 'slave3', 'both'], description: 'Choose the label to run the pipeline on')
+  }
+  agent any
+  stages {
+    stage('Copy Dockerfile') {
+      parallel {
+        stage('Slave 2') {
+          when {
+            expression {
+              params.AGENT_LABEL == 'slave2' || params.AGENT_LABEL == 'both'
+            }
+          }
+          agent {
+            label 'slave2'
+          }
+          steps {
+            git 'https://github.com/eden55155/flask_project.git'
+          }
+        }
+        stage('Slave 3') {
+          when {
+            expression {
+              params.AGENT_LABEL == 'slave3' || params.AGENT_LABEL == 'both'
+            }
+          }
+          agent {
+            label 'slave3'
+          }
+          steps {
+            git 'https://github.com/eden55155/flask_project.git'
+          }
+        }
+      }
+    }
+    stage('Build and Run Docker Image') {
+      parallel {
+        stage('Slave 2') {
+          when {
+            expression {
+              params.AGENT_LABEL == 'slave2' || params.AGENT_LABEL == 'both'
+            }
+          }
+          agent {
+            label 'slave2'
+          }
+          steps {
+            script {
+              sh "docker build -t projectflask ."
+              sh "docker run --name flaskapp -p 80:80 -d projectflask"
+            }
+          }
+        }
+        stage('Slave 3') {
+          when {
+            expression {
+              params.AGENT_LABEL == 'slave3' || params.AGENT_LABEL == 'both'
+            }
+          }
+          agent {
+            label 'slave3'
+          }
+          steps {
+            script {
+              sh "docker build -t projectflask ."
+              sh "docker run --name flaskapp -p 80:80 -d projectflask"
+            }
+          }
+        }
+      }
+    }
+  }
+}
